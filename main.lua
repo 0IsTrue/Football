@@ -31,17 +31,21 @@ local function dialog(params)
     drawAnswers[i].x = x - drawAnswers[i].width
     drawAnswers[i]:setFillColor(unpack(params.answerscolor, 1, 3))
     
-    if params.answers[i].onClick then
-      drawAnswers[i]:addEventListener("touch", params.answers[i].onClick)
-    else
-      drawAnswers[i]:addEventListener("touch", function(event)
-          if event.phase == "ended" then
-            group:removeSelf()
-          end
-          display.getCurrentStage():setFocus(nil)
-          return true
-        end)
+    local function onClick(event)
+      if params.answers[i].onClick then
+        drawAnswers[i]:addEventListener("touch", params.answers[i].onClick)
+      end
+      
+      display.getCurrentStage():setFocus(nil)
+      
+      if event.phase == "ended" then
+        group:removeSelf()
+      end
+      return true
     end
+    
+    drawAnswers[i]:addEventListener("touch", onClick)
+    
     answersCount = i
   end
   
