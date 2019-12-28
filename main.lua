@@ -61,4 +61,5 @@ local function dialog(params)
   end
 end
 
+composer.setVariable("dialog", dialog)
 composer.gotoScene("scenes.menu")
